@@ -20,5 +20,13 @@
  
 ##output in fb messenger
  - once you are done with fb  webhook setup, you can message on your page and will get automated replies as shown in pictures below
+
+Normal text by a user
+
+  ![Normal text](screenshots/msg_text.png)
+  
+Postbacks (button click by a user in messenger)
+
+  ![PostBacks](screenshots/msg_postback.png)
  
  
