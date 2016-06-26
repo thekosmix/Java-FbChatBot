@@ -37,7 +37,7 @@ public class WebHookServlet extends HttpServlet {
 	private static final long serialVersionUID = -2326475169699351010L;
 
 	/************* FB Chat Bot variables *************************/
-	private static final String PAGE_TOKEN = "YOUR_FB_PAGE_TOKEN";
+	public static final String PAGE_TOKEN = "YOUR_FB_PAGE_TOKEN";
 	private static final String VERIFY_TOKEN = "whatever_string_you_or_your_friends_wish";
 	private static final String FB_MSG_URL = "https://graph.facebook.com/v2.6/me/messages?access_token="
 			+ PAGE_TOKEN;

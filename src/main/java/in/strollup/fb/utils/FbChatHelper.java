@@ -7,10 +7,17 @@ import in.strollup.fb.contract.Message;
 import in.strollup.fb.contract.Messaging;
 import in.strollup.fb.contract.Payload;
 import in.strollup.fb.contract.Recipient;
+import in.strollup.fb.profile.FbProfile;
 import in.strollup.fb.servlet.WebHookServlet;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 
 import com.google.gson.Gson;
 
@@ -28,6 +35,8 @@ import com.google.gson.Gson;
 public class FbChatHelper {
 	private String vr = "VR headsets";
 	private List<TitleSubTitle> vrImageUrls;
+	private static String profileLink = "https://graph.facebook.com/v2.6/SENDER_ID?access_token="
+			+ WebHookServlet.PAGE_TOKEN;
 
 	public FbChatHelper() {
 		vrImageUrls = new ArrayList<>();
@@ -70,8 +79,8 @@ public class FbChatHelper {
 	}
 
 	/**
-	 * methos which analyze the postbacks ie. the button clicks sent by senderId
-	 * and replies according to it.
+	 * methods which analyze the postbacks ie. the button clicks sent by
+	 * senderId and replies according to it.
 	 * 
 	 * @param senderId
 	 * @param text
@@ -102,8 +111,11 @@ public class FbChatHelper {
 	 */
 	public List<String> getReplies(String senderId, String text) {
 		List<String> replies = new ArrayList<String>();
+		String link = StringUtils.replace(profileLink, "SENDER_ID", senderId);
+		FbProfile profile = getObjectFromUrl(link, FbProfile.class);
 
-		String msg = "Hello, I've received msg: " + text;
+		String msg = "Hello " + profile.getFirstName()
+				+ ", I've received msg: " + text;
 		Message fbMsg = getMsg(msg);
 		String fbReply = getJsonReply(senderId, fbMsg);
 		replies.add(fbReply);
@@ -232,4 +244,36 @@ public class FbChatHelper {
 		return buttons;
 	}
 
+	/**
+	 * Returns object of type clazz from an json api link
+	 * 
+	 * @param link
+	 * @param clazz
+	 * @return
+	 * @throws Exception
+	 */
+	private <T> T getObjectFromUrl(String link, Class<T> clazz) {
+		T t = null;
+		URL url;
+		String jsonString = "";
+		try {
+			url = new URL(link);
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					url.openStream()));
+
+			String inputLine;
+			while ((inputLine = in.readLine()) != null) {
+				jsonString = jsonString + inputLine;
+			}
+			in.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if (!StringUtils.isEmpty(jsonString)) {
+			Gson gson = new Gson();
+			t = gson.fromJson(jsonString, clazz);
+		}
+		return t;
+	}
 }
