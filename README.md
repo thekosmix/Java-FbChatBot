@@ -1,4 +1,4 @@
-# Java-FbChatBot
+# Java-FbChatBot         [![Build Status](https://api.travis-ci.org/thekosmix/Java-FbChatBot.png)](http://travis-ci.org/thekosmix/Java-FbChatBot)
 This is an implementation of Fb chat bot in java. It shows how to create Fb messenger webhook in java, contracts and PoJos of webhook. This project can be used to setup fb messenger webhook with existing tomcat/jetty/java project.
 
 ## How to setup
