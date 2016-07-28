@@ -5,7 +5,7 @@
 	<artifactId>bot</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Fb Bot in Java</name>
+	<name>Java-FbChatBot</name>
 	<url>http://maven.apache.org</url>
 	<dependencies>
 		<dependency>
